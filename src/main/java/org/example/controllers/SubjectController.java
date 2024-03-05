@@ -58,8 +58,8 @@ public class SubjectController {
         return "redirect:/subjects";
     }
 
-    @GetMapping("/edit")
-    public String showEditPage(Model model, @RequestParam int id) {
+    @GetMapping("/edit/{id}")
+    public String showEditPage(Model model, @PathVariable int id) {
         List<Group> groups = groupService.getAllGroups();
         List<SubjectType> typeValues = Arrays.stream(SubjectType.values()).toList();
         SubjectDto subjectDto = subjectService.findById(id);
@@ -70,8 +70,8 @@ public class SubjectController {
         return "subjects/EditSubject";
     }
 
-    @PostMapping("/edit")
-    public String updateSubject(Model model, @RequestParam int id, @Valid @ModelAttribute SubjectDto subjectDto, BindingResult result) {
+    @PostMapping("/edit/{id}")
+    public String updateSubject(Model model, @PathVariable int id, @Valid @ModelAttribute SubjectDto subjectDto, BindingResult result) {
         List<Group> groups = groupService.getAllGroups();
         List<SubjectType> typeValues = Arrays.stream(SubjectType.values()).toList();
         model.addAttribute("subjectDto", subjectDto);
@@ -80,12 +80,12 @@ public class SubjectController {
         if (result.hasErrors()) {
             return "subjects/EditSubject";
         }
-        subjectService.editSubject(subjectDto);
+        subjectService.editSubject(id, subjectDto);
         return "redirect:/subjects";
     }
 
-    @GetMapping("/delete")
-    public String deleteSubject(@RequestParam int id) {
+    @GetMapping("/delete/{id}")
+    public String deleteSubject(@PathVariable int id) {
         subjectService.deleteSubject(id);
         return "redirect:/subjects";
     }

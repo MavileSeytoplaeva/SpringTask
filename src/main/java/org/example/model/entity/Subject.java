@@ -1,16 +1,15 @@
 package org.example.model.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.example.SubjectType;
 
 import java.sql.Date;
+import java.util.Objects;
 
-@Data
 @NoArgsConstructor
-@AllArgsConstructor
+@Getter
+@Setter
 
 @Entity
 @Table(name = "subjects")
@@ -29,4 +28,17 @@ public class Subject {
     private Date expirationDate;
     @ManyToOne(fetch = FetchType.EAGER)
     private Group group;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Subject subject = (Subject) o;
+        return Objects.equals(name, subject.name) && type == subject.type && Objects.equals(issueDate, subject.issueDate) && Objects.equals(expirationDate, subject.expirationDate) && Objects.equals(group, subject.group);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, type, issueDate, expirationDate, group);
+    }
 }

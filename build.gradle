@@ -57,6 +57,9 @@ dependencies {
 // https://mvnrepository.com/artifact/org.springframework/spring-webmvc
 //    implementation group: 'org.springframework', name: 'spring-webmvc', version: '6.1.4'
     implementation('org.springframework.boot:spring-boot-starter-thymeleaf:3.0.4')
+    // https://mvnrepository.com/artifact/nz.net.ultraq.thymeleaf/thymeleaf-layout-dialect
+    implementation group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect', version: '3.3.0'
+
     compileOnly 'org.projectlombok:lombok:1.18.30'
     annotationProcessor 'org.projectlombok:lombok:1.18.30'
 //

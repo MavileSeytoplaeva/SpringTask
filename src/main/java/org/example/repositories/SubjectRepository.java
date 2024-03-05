@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface SubjectRepository extends JpaRepository<Subject, Integer> {
-    @Query(value = "SELECT * FROM subjects WHERE type = ? AND subjects.expiration_date <= ?", nativeQuery = true)
+    @Query(value = "SELECT * FROM subjects WHERE type = ? AND subjects.expiration_date <= ?", nativeQuery = true) // без "nativeQuery = true" запрос красный
     List<Subject> findAllByTypeAndDateEarlierThanGiven(String type, Date currentDatePlusWarningDays);
 
 }

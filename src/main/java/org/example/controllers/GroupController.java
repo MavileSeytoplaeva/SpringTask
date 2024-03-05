@@ -44,27 +44,26 @@ public class GroupController {
         return "redirect:/groups";
     }
 
-    @GetMapping("/edit")
-    public String showEditPage(Model model, @RequestParam int id) {
+    @GetMapping("/edit/{id}")
+    public String showEditPage(Model model, @PathVariable int id) {
         GroupDto groupDto = groupService.findById(id);
         model.addAttribute("groupDto", groupDto);
-        groupService.editGroup(groupDto);
 
         return "groups/EditGroup";
     }
 
-    @PostMapping("/edit")
-    public String updateGroup(Model model, @RequestParam int id, @Valid @ModelAttribute GroupDto groupDto, BindingResult result) {
+    @PostMapping("/edit/{id}")
+    public String updateGroup(Model model, @PathVariable int id, @Valid @ModelAttribute GroupDto groupDto, BindingResult result) {
         model.addAttribute("groupDto", groupDto);
         if (result.hasErrors()) {
             return "groups/EditGroup";
         }
-        groupService.editGroup(groupDto);
+        groupService.editGroup(id, groupDto);
         return "redirect:/groups";
     }
 
-    @GetMapping("/delete")
-    public String deleteGroup(@RequestParam int id) {
+    @GetMapping("/delete/{id}")
+    public String deleteGroup(@PathVariable int id) {
         groupService.deleteGroup(id);
         return "redirect:/groups";
     }

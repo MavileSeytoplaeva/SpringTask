@@ -29,8 +29,13 @@ public class SubjectService {
         repository.save(subject);
     }
 
-    public void editSubject(SubjectDto subjectDto) {
-        Subject subject = SubjectMapper.mapSubjectDtoToSubject(subjectDto);
+    public void editSubject(int id, SubjectDto subjectDto) {
+        Subject subject = repository.findById(id).orElseThrow(NoSuchSubjectException::new);
+        subject.setName(subjectDto.getName());
+        subject.setType(subjectDto.getType());
+        subject.setIssueDate(subjectDto.getIssueDate());
+        subject.setExpirationDate(subjectDto.getExpirationDate());
+        subject.setGroup(subjectDto.getGroup());
         repository.save(subject);
     }
 

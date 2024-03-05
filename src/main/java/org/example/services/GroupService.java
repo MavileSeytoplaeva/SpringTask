@@ -28,8 +28,10 @@ public class GroupService {
         repository.save(group);
     }
 
-    public void editGroup(GroupDto groupDto) {
-        Group group = GroupMapper.mapGroupDtoToGroup(groupDto);
+    public void editGroup(int id, GroupDto groupDto) {
+        Group group = repository.findById(id).orElseThrow(NoSuchGroupException::new);
+        group.setName(groupDto.getName());
+        group.setColor(groupDto.getColor());
         repository.save(group);
     }
 

@@ -6,8 +6,6 @@ import lombok.Data;
 
 @Data
 public class GroupDto {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @NotEmpty(message = "Напишите название")
     private String name;
