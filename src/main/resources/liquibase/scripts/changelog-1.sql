@@ -27,3 +27,7 @@ create table groups
 ALTER TABLE subjects
     ADD CONSTRAINT FK_subjects_group_id
         FOREIGN KEY (group_id) REFERENCES groups (id);
+
+
+
+

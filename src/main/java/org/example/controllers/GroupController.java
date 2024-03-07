@@ -35,7 +35,7 @@ public class GroupController {
     }
 
     @PostMapping("/create")
-    public String createGroup(@Valid @ModelAttribute("groupDto") GroupDto groupDto, BindingResult result, Model model) {
+    public String createGroup(@Valid @ModelAttribute("groupDto") GroupDto groupDto, BindingResult result) {
         if (result.hasErrors()) {
             return "groups/CreateGroup";
         }

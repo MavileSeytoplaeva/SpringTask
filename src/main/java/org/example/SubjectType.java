@@ -2,6 +2,7 @@ package org.example;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.Locale;
 
 public enum SubjectType {
     DOCUMENT("Документ", 14),
@@ -31,5 +32,9 @@ public enum SubjectType {
 
     public int getWarningDays() {
         return warningDays;
+    }
+
+    public String getName() {
+        return name().toLowerCase(Locale.ROOT);
     }
 }

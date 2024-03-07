@@ -11,4 +11,26 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+<script>
+    function validateForm() {
+        var fileInput = document.querySelector('input[type="file"]');
+        var file = fileInput.files[0];
+        var errorMessage = document.getElementById("error-message");
+
+        if (!file) {
+            errorMessage.style.color = "red";
+            errorMessage.innerText = "File not attached";
+            return false;
+        }
+
+        var fileExtension = file.name.split('.').pop().toLowerCase();
+        if (fileExtension !== "xml") {
+            errorMessage.style.color = "red";
+            errorMessage.innerText = "Invalid file format. Please attach an XML file.";
+            return false;
+        }
+
+        return true;
+    }
+</script>
 </html>

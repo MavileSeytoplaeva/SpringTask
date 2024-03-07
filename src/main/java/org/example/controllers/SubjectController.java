@@ -101,7 +101,7 @@ public class SubjectController {
     }
 
     @PostMapping("/generateReport")
-    public String generateReport(@Valid @ModelAttribute("subjectDto") SubjectDto subjectDto, BindingResult result, Model model) {
+    public String generateReport(@Valid @ModelAttribute("subjectDto") SubjectDto subjectDto, Model model) {
         List<Subject> subjectsWithExpirationDate = subjectService.getSubjectsWithNearExpirationDateByType(subjectDto.getType());
         model.addAttribute("subjects", subjectsWithExpirationDate);
 

@@ -33,9 +33,10 @@
 
             <td style="white-space: nowrap">
                 <a class="btn btn-primary btn-sm"
-                   th:href="@{/subjects/edit(id=${subject.id})}">Edit</a>
+                   th:href="@{/subjects/edit/{id}(id=${subject.id})}">Edit</a>
+
                 <a class="btn btn-danger btn-sm"
-                   th:href="@{/subjects/delete(id=${subject.id})}"
+                   th:href="@{/subjects/delete/{id}(id=${subject.id})}"
                    onclick="return confirm('Are you sure?')">Delete</a>
             </td>
         </tr>

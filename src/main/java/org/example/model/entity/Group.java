@@ -1,5 +1,8 @@
 package org.example.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,12 +14,26 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "groups")
+@JsonIgnoreProperties("id")
 public class Group {
+    @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     private String color;
+    @Column(name = "ext_id")
+    private String extId;
+
+    public Group(@JacksonXmlProperty(localName = "Id") String extId,
+                   @JacksonXmlProperty(localName = "Name") String name,
+                   @JacksonXmlProperty(localName = "Color") String color
+    ) {
+        this.extId = extId;
+        this.name = name;
+        this.color = color;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -29,5 +46,15 @@ public class Group {
     @Override
     public int hashCode() {
         return Objects.hash(name, color);
+    }
+
+    @Override
+    public String toString() {
+        return "Group{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", color='" + color + '\'' +
+                ", ext_id='" + extId + '\'' +
+                '}';
     }
 }

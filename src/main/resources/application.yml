@@ -1,34 +1,9 @@
-spring:
-  profiles:
-    active: development
-
----
-
-spring:
-  config:
-    activate:
-      on-profile: development
-
-  liquibase:
-    change-log: classpath:/liquibase/scripts/testData.sql
-
----
-spring:
-  config:
-    activate:
-      on-profile: production
-
-  liquibase:
-    change-log: classpath:/liquibase/scripts/changelog-1.sql
-
----
 
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/SpringTask
     username: User
     password: 12345
-
   jpa:
     hibernate:
       ddl-auto: validate
@@ -36,3 +11,5 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+  liquibase:
+    change-log: liquibase/scripts/changelog-2.sql
