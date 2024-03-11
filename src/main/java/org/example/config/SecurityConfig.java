@@ -28,15 +28,13 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         authorization ->
                                 authorization
-                                        .requestMatchers("/registration", "/login", "/home"
-//                                                ,"/file/**", Этот контроллер должен быть индивидуальным для юзера и грузить данные только для него
-//                                                 "/groups/**" Этот контроллер должен быть закрыт за секьюрити - его не должны видеть или тем более создавать неавторизованные
+                                        .requestMatchers("/registration", "/login", "/"
                                         ).permitAll()
                                         .anyRequest().fullyAuthenticated())
                 .formLogin(
                         (form) -> form
-                                .loginPage("/home")
-                                .defaultSuccessUrl("/home")
+                                .loginPage("/")
+                                .defaultSuccessUrl("/")
                                 .loginProcessingUrl("/login")
                                 .failureUrl("/login")
                                 .permitAll()

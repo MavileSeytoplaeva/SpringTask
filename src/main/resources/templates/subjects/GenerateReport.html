@@ -12,8 +12,6 @@
                         <select class="form-select" th:field="${subjectDto.type}">
                             <option th:each="type : ${typeValues}" th:value="${type}" th:text="${type.getStringValue()}"></option>
                         </select>
-                        <p th:if="${#fields.hasErrors('type')}" th:errorclass="text-danger"
-                           th:errors="${subjectDto.type}"></p><br>
                     </div>
 
                     <div class="row">

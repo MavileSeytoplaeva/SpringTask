@@ -18,8 +18,7 @@ public class FileMapper {
             InputStream inputStream = file.getInputStream();
             XmlMapper xmlMapper = new XmlMapper();
             xmlMapper.configure(ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
-            Export value = xmlMapper.readValue(inputStream, Export.class);
-            return value;
+            return xmlMapper.readValue(inputStream, Export.class);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

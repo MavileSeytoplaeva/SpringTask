@@ -38,10 +38,6 @@
 <div class="container">
     <h1 class="text-center my-4">Welcome To Spring Task</h1>
 
-    <a class="btn btn-primary" href="/subjects">Subjects</a>
-    <a class="btn btn-primary" href="/groups">Groups</a>
-    <a class="btn btn-primary" href="/file">Upload file</a>
-
     <div th:if="${userDto == null}">
         <a class="btn btn-primary" href="/login">Log in</a>
         <a class="btn btn-primary" href="/registration">Registration</a>
@@ -49,6 +45,9 @@
 
     <div th:if="${userDto != null}">
         <a class="btn btn-primary" href="/logout">Logout</a>
+        <a class="btn btn-primary" href="/subjects">Subjects</a>
+        <a class="btn btn-primary" href="/groups">Groups</a>
+        <a class="btn btn-primary" href="/file">Upload file</a>
     </div>
 </div>
 

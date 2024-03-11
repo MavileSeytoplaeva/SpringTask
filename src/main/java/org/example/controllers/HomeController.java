@@ -1,24 +1,18 @@
 package org.example.controllers;
 
-import lombok.RequiredArgsConstructor;
 import org.example.model.dto.UserDto;
-import org.example.model.entity.Subject;
-import org.example.model.entity.User;
 import org.example.services.UserService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
 
 @Controller
-@RequestMapping("/home")
+@RequestMapping()
 public class HomeController {
-    private UserService userService;
+    private final UserService userService;
 
     public HomeController(UserService userService) {
         this.userService = userService;

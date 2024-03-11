@@ -3,10 +3,13 @@ package org.example.controllers;
 import jakarta.validation.Valid;
 import org.example.SubjectType;
 import org.example.model.dto.SubjectDto;
+import org.example.model.dto.UserDto;
 import org.example.model.entity.Group;
 import org.example.model.entity.Subject;
 import org.example.services.GroupService;
 import org.example.services.SubjectService;
+import org.example.services.UserService;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,15 +23,18 @@ import java.util.List;
 public class SubjectController {
     private final SubjectService subjectService;
     private final GroupService groupService;
+    private final UserService userService;
 
-    public SubjectController(SubjectService subjectService, GroupService groupService) {
+    public SubjectController(SubjectService subjectService, GroupService groupService, UserService userService) {
         this.subjectService = subjectService;
         this.groupService = groupService;
+        this.userService = userService;
     }
 
     @GetMapping({"", "/"})
-    public String showSubjectList(Model model) {
-        List<Subject> subjects = subjectService.getAllSubjects();
+    public String showSubjectList(Model model, Authentication authentication) {
+        UserDto userDto = userService.getLoggedInUser(authentication);
+        List<Subject> subjects = subjectService.getAllSubjectsByUserId(userDto.getId());
         model.addAttribute("subjects", subjects);
         return "subjects/index";
     }
@@ -45,7 +51,8 @@ public class SubjectController {
     }
 
     @PostMapping("/create")
-    public String createSubject(@Valid @ModelAttribute("subjectDto") SubjectDto subjectDto, BindingResult result, Model model) {
+    public String createSubject(@Valid @ModelAttribute("subjectDto") SubjectDto subjectDto, BindingResult result, Model model, Authentication authentication) {
+        UserDto userDto = userService.getLoggedInUser(authentication);
         List<Group> groups = groupService.getAllGroups();
         List<SubjectType> typeValues = Arrays.stream(SubjectType.values()).toList();
         model.addAttribute("typeValues", typeValues);
@@ -54,7 +61,7 @@ public class SubjectController {
             return "subjects/CreateSubject";
         }
 
-        subjectService.createSubject(subjectDto);
+        subjectService.createSubject(subjectDto, userDto);
         return "redirect:/subjects";
     }
 
@@ -86,7 +93,7 @@ public class SubjectController {
 
     @GetMapping("/delete/{id}")
     public String deleteSubject(@PathVariable int id) {
-        subjectService.deleteSubject(id);
+        subjectService.deleteById(id);
         return "redirect:/subjects";
     }
     @GetMapping("/generateReport")
@@ -101,8 +108,9 @@ public class SubjectController {
     }
 
     @PostMapping("/generateReport")
-    public String generateReport(@Valid @ModelAttribute("subjectDto") SubjectDto subjectDto, Model model) {
-        List<Subject> subjectsWithExpirationDate = subjectService.getSubjectsWithNearExpirationDateByType(subjectDto.getType());
+    public String generateReport(@ModelAttribute("subjectDto") SubjectDto subjectDto, Model model, Authentication authentication) {
+        UserDto userDto = userService.getLoggedInUser(authentication);
+        List<Subject> subjectsWithExpirationDate = subjectService.getSubjectsWithNearExpirationDateByTypeAndUserId(subjectDto.getType(), userDto);
         model.addAttribute("subjects", subjectsWithExpirationDate);
 
         return "subjects/Report";

@@ -4,9 +4,12 @@ import org.example.SubjectType;
 import org.example.exceptions.NoSuchSubjectException;
 import org.example.model.dto.Export;
 import org.example.model.dto.SubjectDto;
+import org.example.model.dto.UserDto;
 import org.example.model.entity.Group;
 import org.example.model.entity.Subject;
+import org.example.model.entity.User;
 import org.example.model.mapper.SubjectMapper;
+import org.example.model.mapper.UserMapper;
 import org.example.repositories.SubjectRepository;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -33,26 +36,30 @@ public class SubjectService {
         return SubjectMapper.mapSubjectToSubjectDto(subject);
     }
     @Transactional
-    public void createSubject(SubjectDto subjectDto) {
+    public void createSubject(SubjectDto subjectDto, UserDto userDto) {
         Subject subject = SubjectMapper.mapSubjectDtoToSubject(subjectDto);
+        User user = UserMapper.mapToUser(userDto);
+        subject.setUser(user);
         repository.save(subject);
     }
 
     @Transactional
-    public void createSubjectsFromXMLFile(Export exportValue) {
+    public void createSubjectsFromXMLFile(Export exportValue, UserDto userDto) {
+        User user = UserMapper.mapToUser(userDto);
         List<Subject> subjects = exportValue.getSubjects().stream()
                 .peek(subject -> {
                     Group group = groupService.findGroupByExtId(subject.getGroup().getExtId());
                     subject.setGroup(group);
+                    subject.setUser(user);
                 })
-                .filter(subject -> findByNameAndType(subject.getName(), subject.getType()).isEmpty())
                 .toList();
         repository.saveAll(subjects);
     }
 
     @Transactional(readOnly = true)
-    public List<Subject> findByNameAndType(String name, SubjectType type) {
-        return repository.findAlLByNameAndType(name, type);
+    public List<Subject> findByNameAndTypeAndUser(String name, SubjectType type, UserDto userDto) {
+        User user = UserMapper.mapToUser(userDto);
+        return repository.findAlLByNameAndTypeAndUser(name, type, user);
     }
     @Transactional
     public void editSubject(int id, SubjectDto subjectDto) {
@@ -64,22 +71,26 @@ public class SubjectService {
         subject.setGroup(subjectDto.getGroup());
         repository.save(subject);
     }
+
     @Transactional(readOnly = true)
-    public List<Subject> getAllSubjects() {
-        return repository.findAll();
+    public List<Subject> getAllSubjectsByUserId(int userId) {
+        return repository.findAlLByUserId(userId);
     }
     @Transactional
-    public void deleteSubject(int id) {
-        Subject subject = repository.findById(id).orElseThrow(NoSuchSubjectException::new);
-        repository.delete(subject);
+    public void deleteById(int id) {
+        repository.deleteById(id);
     }
     @Transactional(readOnly = true)
-    public List<Subject> getSubjectsWithNearExpirationDateByType(SubjectType type) {
+    public List<Subject> getSubjectsWithNearExpirationDateByTypeAndUserId(SubjectType type, UserDto userDto) {
+        User user = UserMapper.mapToUser(userDto);
         Date currentDatePlusWarningDate = type.getExpirationDate();
-        List<Subject> subjectsByTypeAndDateEarlierThanGiven = repository.findAll(where(expirationDateBeforeCurrentDatePlusWarningDate(currentDatePlusWarningDate)).and(typeContains(type)));
-        System.out.println("subjectsByTypeAndDateEarlierThanGiven = " + subjectsByTypeAndDateEarlierThanGiven);
+        List<Subject> subjectsByTypeAndDateEarlierThanGivenByUser = repository.findAll(
+                where(expirationDateBeforeCurrentDatePlusWarningDate(currentDatePlusWarningDate))
+                        .and(typeContains(type))
+                        .and(userContains(user)));
+        System.out.println("subjectsByTypeAndDateEarlierThanGiven = " + subjectsByTypeAndDateEarlierThanGivenByUser);
         System.out.println("currentDatePlusWarningDate = " + currentDatePlusWarningDate);
-        return subjectsByTypeAndDateEarlierThanGiven;
+        return subjectsByTypeAndDateEarlierThanGivenByUser;
     }
 
     private Specification<Subject> expirationDateBeforeCurrentDatePlusWarningDate(Date currentDatePlusWarningDate){
@@ -90,5 +101,11 @@ public class SubjectService {
         return (root, query, criteriaBuilder)
                 -> criteriaBuilder.equal(root.get("type"), type);
     }
+    private Specification<Subject> userContains (User user){
+        return (root, query, criteriaBuilder)
+                -> criteriaBuilder.equal(root.get("user"), user);
+    }
+
+
 
 }

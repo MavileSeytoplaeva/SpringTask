@@ -1,9 +1,9 @@
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/mavile
-    username: mavile
-    password: mavile
+    url: jdbc:postgresql://localhost:5432/SpringTask
+    username: User
+    password: 12345
   jpa:
     hibernate:
       ddl-auto: validate

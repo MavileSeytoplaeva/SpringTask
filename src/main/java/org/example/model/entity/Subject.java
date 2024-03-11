@@ -30,11 +30,11 @@ public class Subject {
     @Temporal(TemporalType.DATE)
     @Column(name = "expiration_date")
     private Date expirationDate;
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Group group;
     @Column(name = "ext_id")
     private String extId;
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -61,12 +61,12 @@ public class Subject {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Subject subject = (Subject) o;
-        return Objects.equals(name, subject.name) && type == subject.type && Objects.equals(issueDate, subject.issueDate) && Objects.equals(expirationDate, subject.expirationDate) && Objects.equals(group, subject.group);
+        return Objects.equals(name, subject.name) && type == subject.type && Objects.equals(issueDate, subject.issueDate) && Objects.equals(expirationDate, subject.expirationDate) && Objects.equals(group, subject.group) && Objects.equals(extId, subject.extId) && Objects.equals(user, subject.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, type, issueDate, expirationDate, group);
+        return Objects.hash(name, type, issueDate, expirationDate, group, extId, user);
     }
 
     @Override
@@ -78,7 +78,8 @@ public class Subject {
                 ", issueDate=" + issueDate +
                 ", expirationDate=" + expirationDate +
                 ", group=" + group +
-                ", ext_id='" + extId + '\'' +
+                ", extId='" + extId + '\'' +
+                ", user=" + user +
                 '}';
     }
 }
