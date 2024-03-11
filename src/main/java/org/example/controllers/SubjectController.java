@@ -107,6 +107,4 @@ public class SubjectController {
 
         return "subjects/Report";
     }
-
-
 }

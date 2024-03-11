@@ -7,9 +7,9 @@
 <div class="container">
     <h1 class="text-center my-4">Загрузите файл</h1>
 
-    <a class="btn btn-primary" style="margin-bottom: 2%" href="index.html">Вернуться на главную</a>
+    <a class="btn btn-primary" style="margin-bottom: 2%" href="home/">Вернуться на главную</a>
 
-    <form method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+    <form action="file" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
         <input type="file" name="file" accept=".xml">
         <button type="submit">Upload</button>
     </form>

@@ -17,19 +17,10 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.3'
 }
+
 group = 'org.example'
 version = '1.0-SNAPSHOT'
 
-//repositories {
-//    mavenLocal()
-//    maven { url 'https://maven.aliyun.com/repository/google/' }
-//    maven { url 'https://maven.aliyun.com/repository/public/' }
-//    maven { url 'https://maven.aliyun.com/repository/spring/' }
-//    maven { url 'https://maven.aliyun.com/repository/gradle-plugin/' }
-//    maven { url 'https://maven.aliyun.com/repository/spring-plugin/' }
-//
-//    mavenCentral()
-//}
 repositories {
     mavenCentral()
 }
@@ -37,10 +28,6 @@ repositories {
 
 
 dependencies {
-//    compileOnly 'org.projectlombok:lombok'
-//    runtimeOnly 'org.postgresql:postgresql'
-//    annotationProcessor 'org.projectlombok:lombok'
-    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '3.2.3'
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '3.2.3'
@@ -63,14 +50,17 @@ dependencies {
     implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-xml', version: '2.16.1'
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.16.1'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '3.2.3'
+
+
+
 
 
     compileOnly 'org.projectlombok:lombok:1.18.30'
     annotationProcessor 'org.projectlombok:lombok:1.18.30'
-//
+
     testCompileOnly 'org.projectlombok:lombok:1.18.30'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
-
 
 
     testImplementation platform('org.junit:junit-bom:5.9.1')

@@ -1,0 +1,33 @@
+<!doctype html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{layouts/layout}">
+<body class="d-flex align-items-center py-4 bg-body-tertiary">
+<main class="form-signup w-100 m-auto" style="max-width: 330px; padding-top: 10%">
+    <!doctype html>
+    <form th:action="@{/login}" method="post" role="form">
+        <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+        <div class="row mb-3">
+            <label class="col-sm-4 col-form-label">Email</label>
+            <div class="col-sm-8">
+                <input class="form-control" id="username" type="text" placeholder="name@example.com" name="username">
+                <p th:if="${param.error}" class="alert-success">Неверный логин или пароль</p>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-4 col-form-label">Password</label>
+            <div class="col-sm-8">
+                <input type="password"  id="password" class="form-control" placeholder="Password"  name="password">
+                <input type="hidden" name="_csrf" value="${_csrf.token}">
+                <p th:if="${param.error}" class="alert-success">Неверный логин или пароль</p>
+            </div>
+        </div>
+        <button class="btn btn-primary w-100 py-2" type="submit" value="Log in">Sign in</button>
+    </form>
+
+    <a href="/registration">
+        <button class="button btn w-100 py-2"
+                style="margin-top: 3%; text-decoration: none; background-color: lightblue">Sign up
+        </button>
+    </a>
+</main>
+</body>
+</html>

@@ -34,6 +34,9 @@ public class Subject {
     private Group group;
     @Column(name = "ext_id")
     private String extId;
+    @ManyToOne()
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Subject(@JacksonXmlProperty(localName = "Id") String extId,
                    @JacksonXmlProperty(localName = "Name") String name,

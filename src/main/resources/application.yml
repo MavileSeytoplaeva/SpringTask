@@ -12,4 +12,4 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
   liquibase:
-    change-log: liquibase/scripts/changelog-2.sql
+    change-log: liquibase/scripts/changelog-3.sql
