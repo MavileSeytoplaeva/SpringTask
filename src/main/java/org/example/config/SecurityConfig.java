@@ -28,8 +28,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         authorization ->
                                 authorization
-                                        .requestMatchers("/registration", "/login", "/file/**", "/home", "/groups/**").permitAll()
-                                        .anyRequest().authenticated())
+                                        .requestMatchers("/registration", "/login", "/home"
+//                                                ,"/file/**", Этот контроллер должен быть индивидуальным для юзера и грузить данные только для него
+//                                                 "/groups/**" Этот контроллер должен быть закрыт за секьюрити - его не должны видеть или тем более создавать неавторизованные
+                                        ).permitAll()
+                                        .anyRequest().fullyAuthenticated())
                 .formLogin(
                         (form) -> form
                                 .loginPage("/home")
@@ -41,6 +44,7 @@ public class SecurityConfig {
                         logout -> logout
                                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll()
                 )
+                .csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable()) // Отключаем csrf
                 .httpBasic(withDefaults());
         return http.build();
     }
